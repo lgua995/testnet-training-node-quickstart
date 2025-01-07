@@ -39,7 +39,7 @@ model2template = {
 
 model2size = {
     "microsoft/Phi-3.5-mini-instruct": 3_500_000_000,
-    "Qwen/Qwen1.5-0.5B": 5_000_000_000
+    "Qwen/Qwen1.5-0.5B": 5_00_000_000,
     "Qwen/Qwen1.5-1.8B": 1_840_000_000,
     "Qwen/Qwen1.5-7B": 7_720_000_000,
     "google/gemma-2b": 2_510_000_000,
