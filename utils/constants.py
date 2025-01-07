@@ -29,7 +29,7 @@ phi3_template = {
 }
 
 model2template = {
-    "microsoft/Phi-3-mini-4k-instruct": phi3_template,
+    "microsoft/Phi-3.5-mini-instruct":phi3_template,
     "Qwen/Qwen1.5-1.8B": qwen_template,
     "Qwen/Qwen1.5-7B": qwen_template,
     "google/gemma-2b": gemma_template,
@@ -37,7 +37,7 @@ model2template = {
 }
 
 model2size = {
-    "microsoft/Phi-3-mini-4k-instruct": 3_800_000_000,
+    "microsoft/Phi-3.5-mini-instruct": 3_500_000_000,
     "Qwen/Qwen1.5-1.8B": 1_840_000_000,
     "Qwen/Qwen1.5-7B": 7_720_000_000,
     "google/gemma-2b": 2_510_000_000,
@@ -45,7 +45,7 @@ model2size = {
 }
 
 model2base_model = {
-    "microsoft/Phi-3-mini-4k-instruct": "phi3",
+    "microsoft/Phi-3.5-mini-instruct": "phi3",
     "Qwen/Qwen1.5-1.8B": "qwen1.5",
     "Qwen/Qwen1.5-7B": "qwen1.5",
     "google/gemma-2b": "gemma",
