@@ -25,7 +25,7 @@ phi3_template = {
     "tool_format": "{content}",
     "function_format": "{content}",
     "observation_format": "<|im_start|>tool\n{content}<|im_end|>\n<|im_start|>assistant\n",
-    "system": "You are a helpful assistant.",
+    "system": None,
 }
 
 model2template = {
