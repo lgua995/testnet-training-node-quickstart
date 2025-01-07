@@ -24,22 +24,40 @@ def train_lora(
     model_id: str, context_length: int, training_args: LoraTrainingArguments
 ):
     assert model_id in model2template, f"model_id {model_id} not supported"
-    lora_config = LoraConfig(
-        r=training_args.lora_rank,
-        target_modules=[
-            "q_proj",
-            "v_proj",
-        ],
-        lora_alpha=training_args.lora_alpha,
-        lora_dropout=training_args.lora_dropout,
-        task_type="CAUSAL_LM",
-    )
-
+    
     # Load model in 4-bit to do qLoRA
     bnb_config = BitsAndBytesConfig(
         load_in_4bit=True,
         bnb_4bit_quant_type="nf4",
         bnb_4bit_compute_dtype=torch.bfloat16,
+    )
+
+    tokenizer = AutoTokenizer.from_pretrained(
+        model_id,
+        use_fast=True,
+    )
+    model = AutoModelForCausalLM.from_pretrained(
+        model_id,
+        quantization_config=bnb_config,
+        device_map={"": 0},
+        token=os.environ["HF_TOKEN"],
+    )
+
+    # 打印模型结构
+    print("模型结构:")
+    for name, module in model.named_modules():
+        print(name)
+
+    # 确认目标模块名称后，修改 lora_config
+    lora_config = LoraConfig(
+        r=training_args.lora_rank,
+        target_modules=[
+            "q_proj",
+            "v_proj",
+        ],  # 修改为实际的模块名称
+        lora_alpha=training_args.lora_alpha,
+        lora_dropout=training_args.lora_dropout,
+        task_type="CAUSAL_LM",
     )
 
     training_args = SFTConfig(
@@ -54,16 +72,6 @@ def train_lora(
         remove_unused_columns=False,
         num_train_epochs=training_args.num_train_epochs,
         max_seq_length=context_length,
-    )
-    tokenizer = AutoTokenizer.from_pretrained(
-        model_id,
-        use_fast=True,
-    )
-    model = AutoModelForCausalLM.from_pretrained(
-        model_id,
-        quantization_config=bnb_config,
-        device_map={"": 0},
-        token=os.environ["HF_TOKEN"],
     )
 
     # Load dataset
@@ -86,13 +94,13 @@ def train_lora(
     # Train model
     trainer.train()
 
-    # save model
+    # Save model
     trainer.save_model("outputs")
 
-    # remove checkpoint folder
+    # Remove checkpoint folder
     os.system("rm -rf outputs/checkpoint-*")
 
-    # upload lora weights and tokenizer
+    # Upload LoRA weights and tokenizer
     print("Training Completed.")
 
 
