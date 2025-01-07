@@ -30,7 +30,6 @@ phi3_template = {
 
 model2template = {
     "microsoft/Phi-3-mini-4k-instruct": phi3_template,
-    "Qwen/Qwen1.5-0.5B": qwen_template,
     "Qwen/Qwen1.5-1.8B": qwen_template,
     "Qwen/Qwen1.5-7B": qwen_template,
     "google/gemma-2b": gemma_template,
